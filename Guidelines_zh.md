@@ -1,6 +1,6 @@
-# Microsoft REST API Guidelines
+# Microsoft REST API 指南
 
-## Microsoft REST API Guidelines Working Group
+## Microsoft REST API 指南工作组
 
 Name | Name | Name |
 ---------------------------- | -------------------------------------- | ----------------------------------------
@@ -8,35 +8,35 @@ Dave Campbell (CTO C+E)      | Rick Rashid (CTO ASG)                  | John She
 Mark Russinovich (CTO Azure) | Steve Lucco (Technical Fellow, DevDiv) | Murali Krishnaprasad (Azure App Plat)
 Rob Howard (ASG)             | Peter Torr  (OSG)                      | Chris Mullins (ASG)
 
+
 <div style="font-size:150%">
-Document editors: John Gossman (C+E), Chris Mullins (ASG), Gareth Jones (ASG), Rob Dolin (C+E), Mark Stafford (C+E)<br/>
+文档维护者: John Gossman (C+E), Chris Mullins (ASG), Gareth Jones (ASG), Rob Dolin (C+E), Mark Stafford (C+E)<br/>
 </div>
 
-# Microsoft REST API Guidelines
+# Microsoft REST API 指南
 
 ## 1. Abstract
-The Microsoft REST API Guidelines, as a design principle, encourages application developers to have resources accessible to them via a RESTful HTTP interface.
-To provide the smoothest possible experience for developers on platforms following the Microsoft REST API Guidelines, REST APIs SHOULD follow consistent design guidelines to make using them easy and intuitive.
+作为设计原则，Microsoft REST API指南鼓励应用程序开发人员通过RESTful HTTP接口访问资源。为了在遵循Microsoft REST API准则的平台上为开发人员提供尽可能流畅的体验，REST API应当遵循一致的设计准则，以使其使用起来简单直观。
 
-This document establishes the guidelines Microsoft REST APIs SHOULD follow so RESTful interfaces are developed consistently.
+本文档建立了微软REST API应该遵循的准则，以便一致地开发RESTful接口。
 
-## 2. Table of contents
+## 2. 目录
 <!-- TOC depthFrom:2 depthTo:4 orderedList:false updateOnSave:false withLinks:true -->
 
-- [Microsoft REST API Guidelines Working Group](#microsoft-rest-api-guidelines-working-group)
+- [Microsoft REST API 指南工作组](#microsoft-restapi-指南工作组)
 - [1. Abstract](#1-abstract)
-- [2. Table of contents](#2-table-of-contents)
-- [3. Introduction](#3-introduction)
-    - [3.1. Recommended reading](#31-recommended-reading)
-- [4. Interpreting the guidelines](#4-interpreting-the-guidelines)
-    - [4.1. Application of the guidelines](#41-application-of-the-guidelines)
-    - [4.2. Guidelines for existing services and versioning of services](#42-guidelines-for-existing-services-and-versioning-of-services)
-    - [4.3. Requirements language](#43-requirements-language)
+- [2. 目录](#2-目录)
+- [3. 介绍](#3-介绍)
+    - [3.1. 推荐读物](#31-推荐读物)
+- [4. 解释准则](#4-解释准则)
+    - [4.1. 准则的适用](#41-准则的适用)
+    - [4.2. 现有服务和服务版本指导](#42-现有服务和服务版本指导)
+    - [4.3. 需求语言](#43-需求语言)
     - [4.4. License](#44-license)
-- [5. Taxonomy](#5-taxonomy)
-    - [5.1. Errors](#51-errors)
-    - [5.2. Faults](#52-faults)
-    - [5.3. Latency](#53-latency)
+- [5. 分类](#5-分类)
+    - [5.1. 错误](#51-错误)
+    - [5.2. 缺点](#52-缺点)
+    - [5.3. 潜在](#53-潜在)
     - [5.4. Time to complete](#54-time-to-complete)
     - [5.5. Long running API faults](#55-long-running-api-faults)
 - [6. Client guidance](#6-client-guidance)
@@ -166,30 +166,25 @@ This document establishes the guidelines Microsoft REST APIs SHOULD follow so RE
 
 <!-- /TOC -->
 
-## 3. Introduction
-Developers access most Microsoft Cloud Platform resources via HTTP interfaces.
-Although each service typically provides language-specific frameworks to wrap their APIs, all of their operations eventually boil down to HTTP requests.
-Microsoft must support a wide range of clients and services and cannot rely on rich frameworks being available for every development environment.
-Thus, a goal of these guidelines is to ensure Microsoft REST APIs can be easily and consistently consumed by any client with basic HTTP support.
+## 3. 介绍
+开发人员通过HTTP接口访问大多数Microsoft Cloud Platform资源。尽管每种服务通常都提供特定于语言的框架来包装其API，但其所有操作最终都归结为HTTP请求。Microsoft必须支持广泛的客户端和服务，并且不能依赖可用于每个开发环境的丰富框架。因此，这些准则的目标是确保任何具有基本HTTP支持的客户端都可以轻松，一致地使用Microsoft REST API。
 
-To provide the smoothest possible experience for developers, it's important to have these APIs follow consistent design guidelines, thus making using them easy and intuitive.
-This document establishes the guidelines to be followed by Microsoft REST API developers for developing such APIs consistently.
+为了为开发人员提供尽可能流畅的体验，使这些API遵循一致的设计准则非常重要，因此使它们使用起来既简单又直观。本文档建立了Microsoft REST API开发人员遵循的准则，以一致地开发此类API。
 
-The benefits of consistency accrue in aggregate as well; consistency allows teams to leverage common code, patterns, documentation and design decisions.
+一致性的好处也从总体上产生； 一致性使团队可以利用通用代码，模式，文档和设计决策。
 
-These guidelines aim to achieve the following:
-- Define consistent practices and patterns for all API endpoints across Microsoft.
-- Adhere as closely as possible to accepted REST/HTTP best practices in the industry at-large. [\*]
-- Make accessing Microsoft Services via REST interfaces easy for all application developers.
-- Allow service developers to leverage the prior work of other services to implement, test and document REST endpoints defined consistently.
-- Allow for partners (e.g., non-Microsoft entities) to use these guidelines for their own REST endpoint design.
+这些准则旨在实现以下目标:
+- 为Microsoft的所有API端点定义一致的做法和模式。
+- 尽可能遵守整个行业中公认的REST / HTTP最佳实践。 [\*]
+- 使所有应用程序开发人员都可以通过REST界面轻松访问Microsoft Services。
+- 允许服务开发人员利用其他服务的先前工作来实施，测试和记录一致定义的REST端点。
+- 允许合作伙伴（例如，非Microsoft实体）使用这些准则进行自己的REST端点设计。
 
-[\*] Note: The guidelines are designed to align with building services which comply with the REST architectural style, though they do not address or require building services that follow the REST constraints.
-The term "REST" is used throughout this document to mean services that are in the spirit of REST rather than adhering to REST by the book.*
+[\*] Note: 该准则旨在与符合REST体系结构样式的建筑服务保持一致，尽管它们并未解决或要求遵循REST约束的建筑服务。
+在整个文档中，术语“ REST”用于表示符合REST精神的服务，而不是本书所遵循的REST。*
 
-### 3.1. Recommended reading
-Understanding the philosophy behind the REST Architectural Style is recommended for developing good HTTP-based services.
-If you are new to RESTful design, here are some good resources:
+### 3.1. 推荐阅读
+为了开发良好的基于HTTP的服务，建议理解REST体系结构风格的原理。如果您不熟悉RESTful设计，这里有一些不错的资源：
 
 [REST on Wikipedia][rest-on-wikipedia] -- Overview of common definitions and core ideas behind REST.
 
